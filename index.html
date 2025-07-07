@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AI Study Tip Generator</title>
+  </head>
+  <body>
+    <h1>📚 AI Study Tip Generator</h1>
+    <button onclick="getTip()">Generate Tip</button>
+    <p id="tipBox"></p>
+
+    <script>
+      async function getTip() {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_API_KEY_HERE"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: "Give me a helpful study tip" }],
+            max_tokens: 60
+          })
+        });
+
+        const data = await response.json();
+        const tip = data.choices[0].message.content;
+        document.getElementById("tipBox").innerText = tip;
+      }
+    </script>
+  </body>
+</html>
